@@ -117,8 +117,9 @@
 
     <div class="avatar-ring">
       <div class="avatar">
-        <!-- Troque pela sua logo: coloque o arquivo "logo.png" nesta pasta -->
-        <img src="logo.png" alt="KING METODOS" onerror="this.style.display='none';this.parentNode.querySelector('.crown').style.display='block'">
+        <!-- Logo: tenta varios nomes/extensoes; se nao achar nenhum, mostra a coroa -->
+        <img src="logo.png.jpg" alt="KING METODOS" data-alt="logo.png,logo.jpg,logo.jpeg,logo.webp"
+             onerror="var l=(this.dataset.alt||'').split(',').filter(Boolean);if(l.length){this.dataset.alt=l.slice(1).join(',');this.src=l[0];}else{this.style.display='none';this.parentNode.querySelector('.crown').style.display='block';}">
         <span class="crown" style="display:none">👑</span>
       </div>
     </div>
