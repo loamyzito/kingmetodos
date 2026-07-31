@@ -121,6 +121,13 @@
     50%{box-shadow:0 6px 30px rgba(46,204,113,.6)}
   }
 
+  /* Card branco pulsando (destaque do grupo) */
+  .link.pulse{animation:cardpulse 1.8s ease-in-out infinite}
+  @keyframes cardpulse{
+    0%,100%{box-shadow:0 2px 10px rgba(37,211,102,.25)}
+    50%{box-shadow:0 8px 26px rgba(37,211,102,.6)}
+  }
+
   .footer{margin-top:34px;color:var(--muted);font-size:.78rem;letter-spacing:.5px}
   .footer .crown{color:var(--gold)}
 </style>
@@ -222,7 +229,8 @@
         logo: "wa",
         titulo: "Entrar no Grupo Free",
         desc: "Comunidade no WhatsApp • Cadastro gratuito",
-        url: "https://chat.whatsapp.com/Fxk8VtVOrIMFT2xojf5Txt?s=cl&p=i&ilr=4&amv=0"
+        url: "https://chat.whatsapp.com/Fxk8VtVOrIMFT2xojf5Txt?s=cl&p=i&ilr=4&amv=0",
+        destaque: true
       },
       {
         logo: "wa",
@@ -270,7 +278,7 @@
       }
       var html = BOTOES.map(function (b) {
         var desc = b.desc ? '<span class="desc">' + esc(b.desc) + "</span>" : "";
-        return '<a class="link' + (b.free ? " free" : "") + '" href="' + esc(b.url) + '" target="_blank" rel="noopener">' +
+        return '<a class="link' + (b.free ? " free" : "") + (b.destaque ? " pulse" : "") + '" href="' + esc(b.url) + '" target="_blank" rel="noopener">' +
           '<span class="ic">' + iconeHTML(b) + "</span>" +
           '<span class="txt"><span class="title">' + esc(b.titulo) + "</span>" + desc + "</span>" +
           '<span class="arrow">›</span>' +
