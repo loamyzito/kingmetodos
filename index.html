@@ -273,5 +273,53 @@
       document.getElementById("links").innerHTML = html;
     })();
   </script>
+
+  <!-- ============================================================= -->
+  <!--  CONTADOR — registra visitas e cliques (Supabase)             -->
+  <!--  Serve pra saber quantas pessoas entraram no grupo pelo link  -->
+  <!-- ============================================================= -->
+  <script>
+    (function () {
+      var SB_URL = "https://jmkshpqarmctbchoxadu.supabase.co";
+      var SB_KEY = "sb_publishable_mpvpadpbWZv0i040jDP09Q_gnyYn01p";
+
+      // id anonimo por navegador, so pra separar pessoas de cliques repetidos
+      var visitante;
+      try {
+        visitante = localStorage.getItem("km_vid");
+        if (!visitante) {
+          visitante = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+          localStorage.setItem("km_vid", visitante);
+        }
+      } catch (e) { visitante = "anon"; }
+
+      function registrar(evento, botao) {
+        try {
+          fetch(SB_URL + "/rest/v1/linktree_eventos", {
+            method: "POST",
+            keepalive: true,
+            headers: {
+              "apikey": SB_KEY,
+              "Authorization": "Bearer " + SB_KEY,
+              "Content-Type": "application/json",
+              "Prefer": "return=minimal"
+            },
+            body: JSON.stringify({ evento: evento, botao: botao || null, visitante: visitante })
+          }).catch(function () {});
+        } catch (e) {}
+      }
+
+      registrar("visita", null);
+
+      document.addEventListener("click", function (ev) {
+        var alvo = ev.target;
+        var a = alvo && alvo.closest ? alvo.closest("a") : null;
+        if (!a || !a.getAttribute("href")) return;
+        var t = a.querySelector(".title");
+        var nome = (t && t.textContent) || a.getAttribute("aria-label") || a.getAttribute("href");
+        registrar("clique", String(nome).trim().slice(0, 80));
+      }, true);
+    })();
+  </script>
 </body>
 </html>
